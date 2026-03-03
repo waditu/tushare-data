@@ -1,3 +1,7 @@
 .idea
 .agents
 .claude
+
+logs
+export
+cache
