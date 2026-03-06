@@ -10,59 +10,300 @@ description: tushare是一个财经数据接口包，拥有丰富的数据内容
 tushare是一个财经数据接口包，拥有丰富的数据内容，如股票、基金、期货、数字货币等行情数据，公司财务、基金经理等基本面数据。该模块通过标准化API方式统一了数据资产的对外服务方式，以帮助有需要的技术用户更实时、简洁、轻量的使用相关数据。
 
 ## 快速上手
+- 安装python运行环境(推荐python3.7+)，并安装tushare依赖包(推荐从清华pypi镜像安装)。
+```bash
+pip install tushare -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 - Tushare官网注册，获取token，并配置环境变量。 [注册地址](https://tushare.pro/register)
-- 初始化python运行换环境，并安装tushare依赖包。*pip install tushare*
-- 查询Tushare接口文档，[接口文档](https://tushare.pro/document/2)
-- 获取数据， python代码示例-查询正常上市交易的股票列表
+```bash
+export TUSHARE_TOKEN=your_token
+```
+- 查询Tushare接口文档，找到对应的接口。 [在线数据接口文档](https://tushare.pro/document/2)
+- 根据接口文档，使用python代码获取数据。（如**股票列表**接口）
 ```python
+import os
 import tushare as ts
 
-# 设置token
-ts.set_token('<your_token>')
+# 读取环境变量中的token
+token = os.getenv('TUSHARE_TOKEN')
 
 # 初始化pro接口实例
-pro = ts.pro_api()
-
+pro = ts.pro_api(token)
 
 # 查询数据接口（*股票列表*），获取上市交易的股票列表
 data = pro.stock_basic(list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
 print(df)
 ```
 
-## 示例脚本
+## 参数格式说明
 
+- 日期：YYYYMMDD（如 20241231）
+- 股票代码：ts_code 格式（如 000001.SZ, 600000.SH）
+- 返回格式：pandas DataFrame
+
+## python脚本示例
 - [股票数据获取示例](scripts/stock_data_example.py)
 - [基金数据获取示例](scripts/fund_data_example.py)
 
 
-## 安装和使用文档
 
-- [安装tushare](references/安装tushare.md)， 在线文档：https://tushare.pro/document/1?doc_id=29
-- [使用tushare](references/使用tushare.md)， 在线文档：https://tushare.pro/document/1?doc_id=7
+## 数据接口列表
 
-## 数据接口文档
-- [完整接口文档](references/目录索引.md)
-- [在线接口地址](https://tushare.pro/document/2)
+### ETF专题
+- [ETF实时分钟](tushare/references/ETF专题/ETF实时分钟/ETF实时分钟.md)
+- [ETF份额规模](tushare/references/ETF专题/ETF份额规模/ETF份额规模.md)
+- [ETF历史分钟](tushare/references/ETF专题/ETF历史分钟/ETF历史分钟.md)
+- [ETF基准指数](tushare/references/ETF专题/ETF基准指数/ETF基准指数.md)
+- [ETF实时日线](tushare/references/ETF专题/ETF实时日线/ETF实时日线.md)
+- [ETF日线行情](tushare/references/ETF专题/ETF日线行情/ETF日线行情.md)
+- [ETF基本信息](tushare/references/ETF专题/ETF基本信息/ETF基本信息.md)
+- [ETF复权因子](tushare/references/ETF专题/ETF复权因子/ETF复权因子.md)
 
-### 接口文档统计
+### 现货数据
+- [上海黄金现货日行情](tushare/references/现货数据/上海黄金现货日行情/上海黄金现货日行情.md)
+- [上海黄金基础信息](tushare/references/现货数据/上海黄金基础信息/上海黄金基础信息.md)
 
-| 接口分类 | 接口数量 |
-| ---- | ---- |
-| ETF专题 | 7 |
-| 债券专题 | 15 |
-| 公募基金 | 8 |
-| 另类数据 | 2 |
-| 外汇数据 | 2 |
-| 宏观经济 | 22 |
-| 指数专题 | 16 |
-| 期权数据 | 3 |
-| 期货数据 | 14 |
-| 港股数据 | 11 |
-| 现货数据 | 2 |
-| 美股数据 | 9 |
-| 股票数据 | 107 |
-| 财富管理 | 2 |
-| 大模型语料专题数据 | 5 |
-| **总计** | **225** |
+### 财富管理
+- [销售机构公募基金销售保有规模](tushare/references/财富管理/基金销售行业数据/销售机构公募基金销售保有规模/销售机构公募基金销售保有规模.md)
+- [各渠道公募基金销售保有规模占比](tushare/references/财富管理/基金销售行业数据/各渠道公募基金销售保有规模占比/各渠道公募基金销售保有规模占比.md)
 
-- 
+### 美股数据
+- [美股复权因子](tushare/references/美股数据/美股复权因子/美股复权因子.md)
+- [美股资产负债表](tushare/references/美股数据/美股资产负债表/美股资产负债表.md)
+- [美股财务指标数据](tushare/references/美股数据/美股财务指标数据/美股财务指标数据.md)
+- [美股利润表](tushare/references/美股数据/美股利润表/美股利润表.md)
+- [美股现金流量表](tushare/references/美股数据/美股现金流量表/美股现金流量表.md)
+- [美股复权行情](tushare/references/美股数据/美股复权行情/美股复权行情.md)
+- [美股基础信息](tushare/references/美股数据/美股基础信息/美股基础信息.md)
+- [美股交易日历](tushare/references/美股数据/美股交易日历/美股交易日历.md)
+- [美股日线行情](tushare/references/美股数据/美股日线行情/美股日线行情.md)
+
+### 数据索引
+- [数据索引](tushare/references/数据索引/数据索引.md)
+
+### 社区捐助
+- [社区捐助](tushare/references/社区捐助/社区捐助.md)
+
+### 港股数据
+- [港股复权因子](tushare/references/港股数据/港股复权因子/港股复权因子.md)
+- [港股现金流量表](tushare/references/港股数据/港股现金流量表/港股现金流量表.md)
+- [港股实时日线](tushare/references/港股数据/港股实时日线/港股实时日线.md)
+- [港股利润表](tushare/references/港股数据/港股利润表/港股利润表.md)
+- [港股资产负债表](tushare/references/港股数据/港股资产负债表/港股资产负债表.md)
+- [港股财务指标数据](tushare/references/港股数据/港股财务指标数据/港股财务指标数据.md)
+- [港股复权行情](tushare/references/港股数据/港股复权行情/港股复权行情.md)
+- [港股日线行情](tushare/references/港股数据/港股日线行情/港股日线行情.md)
+- [港股交易日历](tushare/references/港股数据/港股交易日历/港股交易日历.md)
+- [港股基础信息](tushare/references/港股数据/港股基础信息/港股基础信息.md)
+- [港股分钟行情](tushare/references/港股数据/港股分钟行情/港股分钟行情.md)
+
+### 债券专题
+- [可转债技术面因子(专业版）](tushare/references/债券专题/可转债技术面因子(专业版）/可转债技术面因子(专业版）.md)
+- [柜台流通式债券报价](tushare/references/债券专题/柜台流通式债券报价/柜台流通式债券报价.md)
+- [可转债票面利率](tushare/references/债券专题/可转债票面利率/可转债票面利率.md)
+- [大宗交易明细](tushare/references/债券专题/大宗交易明细/大宗交易明细.md)
+- [柜台流通式债券最优报价](tushare/references/债券专题/柜台流通式债券最优报价/柜台流通式债券最优报价.md)
+- [可转债转股结果](tushare/references/债券专题/可转债转股结果/可转债转股结果.md)
+- [可转债赎回信息](tushare/references/债券专题/可转债赎回信息/可转债赎回信息.md)
+- [大宗交易](tushare/references/债券专题/大宗交易/大宗交易.md)
+- [可转债转股价变动](tushare/references/债券专题/可转债转股价变动/可转债转股价变动.md)
+- [债券回购日行情](tushare/references/债券专题/债券回购日行情/债券回购日行情.md)
+- [国债收益率曲线](tushare/references/债券专题/国债收益率曲线/国债收益率曲线.md)
+- [可转债行情](tushare/references/债券专题/可转债行情/可转债行情.md)
+- [全球财经事件](tushare/references/债券专题/全球财经事件/全球财经事件.md)
+- [可转债发行](tushare/references/债券专题/可转债发行/可转债发行.md)
+- [可转债基础信息](tushare/references/债券专题/可转债基础信息/可转债基础信息.md)
+
+### 期权数据
+- [期权合约信息](tushare/references/期权数据/期权合约信息/期权合约信息.md)
+- [期权日线行情](tushare/references/期权数据/期权日线行情/期权日线行情.md)
+- [期权分钟行情](tushare/references/期权数据/期权分钟行情/期权分钟行情.md)
+
+### 外汇数据
+- [外汇基础信息（海外）](tushare/references/外汇数据/外汇基础信息（海外）/外汇基础信息（海外）.md)
+
+### 宏观经济
+#### 国内宏观
+##### 金融
+###### 货币供应量
+- [货币供应量（月）](tushare/references/宏观经济/国内宏观/金融/货币供应量/货币供应量（月）/货币供应量（月）.md)
+###### 社会融资
+- [社融增量（月度）](tushare/references/宏观经济/国内宏观/金融/社会融资/社融增量（月度）/社融增量（月度）.md)
+##### 价格指数
+- [工业生产者出厂价格指数（PPI）](tushare/references/宏观经济/国内宏观/价格指数/工业生产者出厂价格指数（PPI）/工业生产者出厂价格指数（PPI）.md)
+- [居民消费价格指数（CPI）](tushare/references/宏观经济/国内宏观/价格指数/居民消费价格指数（CPI）/居民消费价格指数（CPI）.md)
+##### 景气度
+- [采购经理指数（PMI）](tushare/references/宏观经济/国内宏观/景气度/采购经理指数（PMI）/采购经理指数（PMI）.md)
+##### 利率数据
+- [广州民间借贷利率](tushare/references/宏观经济/国内宏观/利率数据/广州民间借贷利率/广州民间借贷利率.md)
+- [温州民间借贷利率](tushare/references/宏观经济/国内宏观/利率数据/温州民间借贷利率/温州民间借贷利率.md)
+- [LPR贷款基础利率](tushare/references/宏观经济/国内宏观/利率数据/LPR贷款基础利率/LPR贷款基础利率.md)
+- [Shibor利率](tushare/references/宏观经济/国内宏观/利率数据/Shibor利率/Shibor利率.md)
+##### 国民经济
+- [国内生产总值（GDP）](tushare/references/宏观经济/国内宏观/国民经济/国内生产总值（GDP）/国内生产总值（GDP）.md)
+#### 国际宏观
+##### 美国利率
+- [国债实际收益率曲线利率](tushare/references/宏观经济/国际宏观/美国利率/国债实际收益率曲线利率/国债实际收益率曲线利率.md)
+- [短期国债利率](tushare/references/宏观经济/国际宏观/美国利率/短期国债利率/短期国债利率.md)
+- [国债长期利率平均值](tushare/references/宏观经济/国际宏观/美国利率/国债长期利率平均值/国债长期利率平均值.md)
+- [国债长期利率](tushare/references/宏观经济/国际宏观/美国利率/国债长期利率/国债长期利率.md)
+- [国债收益率曲线利率](tushare/references/宏观经济/国际宏观/美国利率/国债收益率曲线利率/国债收益率曲线利率.md)
+
+### 大模型语料专题数据
+- [券商研究报告](tushare/references/大模型语料专题数据/券商研究报告/券商研究报告.md)
+- [国家政策库](tushare/references/大模型语料专题数据/国家政策库/国家政策库.md)
+- [上证e互动问答](tushare/references/大模型语料专题数据/上证e互动问答/上证e互动问答.md)
+- [深证易互动问答](tushare/references/大模型语料专题数据/深证易互动问答/深证易互动问答.md)
+- [新闻通讯（长篇）](tushare/references/大模型语料专题数据/新闻通讯（长篇）/新闻通讯（长篇）.md)
+- [上市公司公告](tushare/references/大模型语料专题数据/上市公司公告/上市公司公告.md)
+- [新闻联播文字稿](tushare/references/大模型语料专题数据/新闻联播文字稿/新闻联播文字稿.md)
+- [新闻快讯（短讯）](tushare/references/大模型语料专题数据/新闻快讯（短讯）/新闻快讯（短讯）.md)
+
+### 期货数据
+- [期货周月线行情(每日更新)](tushare/references/期货数据/期货周月线行情(每日更新)/期货周月线行情(每日更新).md)
+- [实时分钟行情](tushare/references/期货数据/实时分钟行情/实时分钟行情.md)
+- [期货合约涨跌停价格](tushare/references/期货数据/期货合约涨跌停价格/期货合约涨跌停价格.md)
+- [期货主要品种交易周报](tushare/references/期货数据/期货主要品种交易周报/期货主要品种交易周报.md)
+- [历史分钟行情](tushare/references/期货数据/历史分钟行情/历史分钟行情.md)
+- [历史Tick行情](tushare/references/期货数据/历史Tick行情/历史Tick行情.md)
+- [期货主力与连续合约](tushare/references/期货数据/期货主力与连续合约/期货主力与连续合约.md)
+- [南华期货指数行情](tushare/references/期货数据/南华期货指数行情/南华期货指数行情.md)
+- [仓单日报](tushare/references/期货数据/仓单日报/仓单日报.md)
+- [每日结算参数](tushare/references/期货数据/每日结算参数/每日结算参数.md)
+- [每日持仓排名](tushare/references/期货数据/每日持仓排名/每日持仓排名.md)
+- [交易日历](tushare/references/期货数据/交易日历/交易日历.md)
+- [日线行情](tushare/references/期货数据/日线行情/日线行情.md)
+- [合约信息](tushare/references/期货数据/合约信息/合约信息.md)
+
+### 指数专题
+- [申万实时行情](tushare/references/指数专题/申万实时行情/申万实时行情.md)
+- [指数历史分钟](tushare/references/指数专题/指数历史分钟/指数历史分钟.md)
+- [指数实时日线](tushare/references/指数专题/指数实时日线/指数实时日线.md)
+- [指数实时分钟](tushare/references/指数专题/指数实时分钟/指数实时分钟.md)
+- [申万行业指数日行情](tushare/references/指数专题/申万行业指数日行情/申万行业指数日行情.md)
+- [指数技术面因子(专业版)](tushare/references/指数专题/指数技术面因子(专业版)/指数技术面因子(专业版).md)
+- [申万行业成分（分级）](tushare/references/指数专题/申万行业成分（分级）/申万行业成分（分级）.md)
+- [中信行业成分](tushare/references/指数专题/中信行业成分/中信行业成分.md)
+- [中信行业指数日行情](tushare/references/指数专题/中信行业指数日行情/中信行业指数日行情.md)
+- [国际主要指数](tushare/references/指数专题/国际主要指数/国际主要指数.md)
+- [沪深市场每日交易统计](tushare/references/指数专题/沪深市场每日交易统计/沪深市场每日交易统计.md)
+- [深圳市场每日交易情况](tushare/references/指数专题/深圳市场每日交易情况/深圳市场每日交易情况.md)
+- [指数月线行情](tushare/references/指数专题/指数月线行情/指数月线行情.md)
+- [指数周线行情](tushare/references/指数专题/指数周线行情/指数周线行情.md)
+- [申万行业分类](tushare/references/指数专题/申万行业分类/申万行业分类.md)
+- [指数成分和权重](tushare/references/指数专题/指数成分和权重/指数成分和权重.md)
+- [大盘指数每日指标](tushare/references/指数专题/大盘指数每日指标/大盘指数每日指标.md)
+- [指数日线行情](tushare/references/指数专题/指数日线行情/指数日线行情.md)
+- [指数基本信息](tushare/references/指数专题/指数基本信息/指数基本信息.md)
+
+### 行业经济
+#### TMT行业
+- [全国电视剧备案公示数据](tushare/references/行业经济/TMT行业/全国电视剧备案公示数据/全国电视剧备案公示数据.md)
+- [影院日度票房](tushare/references/行业经济/TMT行业/影院日度票房/影院日度票房.md)
+- [电影日度票房](tushare/references/行业经济/TMT行业/电影日度票房/电影日度票房.md)
+- [全国电影剧本备案数据](tushare/references/行业经济/TMT行业/全国电影剧本备案数据/全国电影剧本备案数据.md)
+- [台湾电子产业月营收](tushare/references/行业经济/TMT行业/台湾电子产业月营收/台湾电子产业月营收.md)
+- [电影周度票房](tushare/references/行业经济/TMT行业/电影周度票房/电影周度票房.md)
+- [电影月度票房](tushare/references/行业经济/TMT行业/电影月度票房/电影月度票房.md)
+- [台湾电子产业月营收明细](tushare/references/行业经济/TMT行业/台湾电子产业月营收明细/台湾电子产业月营收明细.md)
+
+### 公募基金
+- [基金技术面因子(专业版)](tushare/references/公募基金/基金技术面因子(专业版)/基金技术面因子(专业版).md)
+- [基金经理](tushare/references/公募基金/基金经理/基金经理.md)
+- [基金规模](tushare/references/公募基金/基金规模/基金规模.md)
+- [基金持仓](tushare/references/公募基金/基金持仓/基金持仓.md)
+- [基金净值](tushare/references/公募基金/基金净值/基金净值.md)
+- [基金分红](tushare/references/公募基金/基金分红/基金分红.md)
+- [基金列表](tushare/references/公募基金/基金列表/基金列表.md)
+- [基金管理人](tushare/references/公募基金/基金管理人/基金管理人.md)
+
+### 股票数据
+#### 打板专题数据
+- [东财概念和行业指数行情](tushare/references/股票数据/打板专题数据/东财概念和行业指数行情/东财概念和行业指数行情.md)
+- [开盘竞价成交（当日）](tushare/references/股票数据/打板专题数据/开盘竞价成交（当日）/开盘竞价成交（当日）.md)
+- [东方财富概念成分](tushare/references/股票数据/打板专题数据/东方财富概念成分/东方财富概念成分.md)
+- [涨停股票连板天梯](tushare/references/股票数据/打板专题数据/涨停股票连板天梯/涨停股票连板天梯.md)
+- [题材成分（开盘啦）](tushare/references/股票数据/打板专题数据/题材成分（开盘啦）/题材成分（开盘啦）.md)
+- [榜单数据（开盘啦）](tushare/references/股票数据/打板专题数据/榜单数据（开盘啦）/榜单数据（开盘啦）.md)
+- [东方财富App热榜](tushare/references/股票数据/打板专题数据/东方财富App热榜/东方财富App热榜.md)
+- [市场游资最全名录](tushare/references/股票数据/打板专题数据/市场游资最全名录/市场游资最全名录.md)
+- [游资交易每日明细](tushare/references/股票数据/打板专题数据/游资交易每日明细/游资交易每日明细.md)
+- [同花顺App热榜数](tushare/references/股票数据/打板专题数据/同花顺App热榜数/同花顺App热榜数.md)
+- [龙虎榜机构交易单](tushare/references/股票数据/打板专题数据/龙虎榜机构交易单/龙虎榜机构交易单.md)
+- [龙虎榜每日统计单](tushare/references/股票数据/打板专题数据/龙虎榜每日统计单/龙虎榜每日统计单.md)
+- [同花顺行业概念成分](tushare/references/股票数据/打板专题数据/同花顺行业概念成分/同花顺行业概念成分.md)
+
+#### 资金流向数据
+- [个股资金流向（THS）](tushare/references/股票数据/资金流向数据/个股资金流向（THS）/个股资金流向（THS）.md)
+- [大盘资金流向（DC）](tushare/references/股票数据/资金流向数据/大盘资金流向（DC）/大盘资金流向（DC）.md)
+- [个股资金流向（DC）](tushare/references/股票数据/资金流向数据/个股资金流向（DC）/个股资金流向（DC）.md)
+- [板块资金流向（THS)](tushare/references/股票数据/资金流向数据/板块资金流向（THS)/板块资金流向（THS).md)
+- [板块资金流向（DC）](tushare/references/股票数据/资金流向数据/板块资金流向（DC）/板块资金流向（DC）.md)
+- [个股资金流向](tushare/references/股票数据/资金流向数据/个股资金流向/个股资金流向.md)
+- [行业资金流向（THS）](tushare/references/股票数据/资金流向数据/行业资金流向（THS）/行业资金流向（THS）.md)
+- [沪深港通资金流向](tushare/references/股票数据/资金流向数据/沪深港通资金流向/沪深港通资金流向.md)
+
+#### 两融及转融通
+- [做市借券交易汇总(停）](tushare/references/股票数据/两融及转融通/做市借券交易汇总(停）/做市借券交易汇总(停）.md)
+- [转融券交易明细(停）](tushare/references/股票数据/两融及转融通/转融券交易明细(停）/转融券交易明细(停）.md)
+- [融资融券交易明细](tushare/references/股票数据/两融及转融通/融资融券交易明细/融资融券交易明细.md)
+- [转融资交易汇总](tushare/references/股票数据/两融及转融通/转融资交易汇总/转融资交易汇总.md)
+- [融资融券标的（盘前）](tushare/references/股票数据/两融及转融通/融资融券标的（盘前）/融资融券标的（盘前）.md)
+- [转融券交易汇总(停）](tushare/references/股票数据/两融及转融通/转融券交易汇总(停）/转融券交易汇总(停）.md)
+- [融资融券交易汇总](tushare/references/股票数据/两融及转融通/融资融券交易汇总/融资融券交易汇总.md)
+
+#### 特色数据
+- [股票开盘集合竞价数据](tushare/references/股票数据/特色数据/股票开盘集合竞价数据/股票开盘集合竞价数据.md)
+- [AH股比价](tushare/references/股票数据/特色数据/AH股比价/AH股比价.md)
+- [股票收盘集合竞价数据](tushare/references/股票数据/特色数据/股票收盘集合竞价数据/股票收盘集合竞价数据.md)
+- [神奇九转指标](tushare/references/股票数据/特色数据/神奇九转指标/神奇九转指标.md)
+- [中央结算系统持股统计](tushare/references/股票数据/特色数据/中央结算系统持股统计/中央结算系统持股统计.md)
+- [股票技术面因子(专业版）](tushare/references/股票数据/特色数据/股票技术面因子(专业版）/股票技术面因子(专业版）.md)
+- [券商盈利预测数据](tushare/references/股票数据/特色数据/券商盈利预测数据/券商盈利预测数据.md)
+- [每日筹码及胜率](tushare/references/股票数据/特色数据/每日筹码及胜率/每日筹码及胜率.md)
+- [每日筹码分布](tushare/references/股票数据/特色数据/每日筹码分布/每日筹码分布.md)
+- [中央结算系统持股明细](tushare/references/股票数据/特色数据/中央结算系统持股明细/中央结算系统持股明细.md)
+- [机构调研数据](tushare/references/股票数据/特色数据/机构调研数据/机构调研数据.md)
+- [券商月度金股](tushare/references/股票数据/特色数据/券商月度金股/券商月度金股.md)
+- [沪深股通持股明细](tushare/references/股票数据/特色数据/沪深股通持股明细/沪深股通持股明细.md)
+
+#### 参考数据
+- [股东增减持](tushare/references/股票数据/参考数据/股东增减持/股东增减持.md)
+- [股票开户数据（旧）](tushare/references/股票数据/参考数据/股票开户数据（旧）/股票开户数据（旧）.md)
+- [大宗交易](tushare/references/股票数据/参考数据/大宗交易/大宗交易.md)
+- [股东人数](tushare/references/股票数据/参考数据/股东人数/股东人数.md)
+- [股票开户数据（停）](tushare/references/股票数据/参考数据/股票开户数据（停）/股票开户数据（停）.md)
+- [股权质押明细数据](tushare/references/股票数据/参考数据/股权质押明细数据/股权质押明细数据.md)
+- [股票回购](tushare/references/股票数据/参考数据/股票回购/股票回购.md)
+- [股权质押统计数据](tushare/references/股票数据/参考数据/股权质押统计数据/股权质押统计数据.md)
+- [前十大流通股东](tushare/references/股票数据/参考数据/前十大流通股东/前十大流通股东.md)
+- [限售股解禁](tushare/references/股票数据/参考数据/限售股解禁/限售股解禁.md)
+- [前十大股东](tushare/references/股票数据/参考数据/前十大股东/前十大股东.md)
+
+#### 财务数据
+- [主营业务构成](tushare/references/股票数据/财务数据/主营业务构成/主营业务构成.md)
+- [财报披露日期表](tushare/references/股票数据/财务数据/财报披露日期表/财报披露日期表.md)
+- [分红送股数据](tushare/references/股票数据/财务数据/分红送股数据/分红送股数据.md)
+- [业绩快报](tushare/references/股票数据/财务数据/业绩快报/业绩快报.md)
+- [财务审计意见](tushare/references/股票数据/财务数据/财务审计意见/财务审计意见.md)
+- [财务指标数据](tushare/references/股票数据/财务数据/财务指标数据/财务指标数据.md)
+- [业绩预告](tushare/references/股票数据/财务数据/业绩预告/业绩预告.md)
+- [资产负债表](tushare/references/股票数据/财务数据/资产负债表/资产负债表.md)
+- [利润表](tushare/references/股票数据/财务数据/利润表/利润表.md)
+- [现金流量表](tushare/references/股票数据/财务数据/现金流量表/现金流量表.md)
+
+#### 行情数据
+- [实时分钟](tushare/references/股票数据/行情数据/实时分钟/实时分钟.md)
+- [周月线复权行情(每日更新)](tushare/references/股票数据/行情数据/周月线复权行情(每日更新)/周月线复权行情(每日更新).md)
+- [周月线行情(每日更新)](tushare/references/股票数据/行情数据/周月线行情(每日更新)/周月线行情(每日更新).md)
+- [备用行情](tushare/references/股票数据/行情数据/备用行情/备用行情.md)
+- [实时成交（爬虫）](tushare/references/股票数据/行情数据/实时成交（爬虫）/实时成交（爬虫）.md)
+- [港股通每日成交统计](tushare/references/股票数据/行情数据/港股通每日成交统计/港股通每日成交统计.md)
+- [每日涨跌停价格](tushare/references/股票数据/行情数据/每日涨跌停价格/每日涨跌停价格.md)
+- [每日停复牌信息](tushare/references/股票数据/行情数据/每日停复牌信息/每日停复牌信息.md)
+- [港股通每月成交统计](tushare/references/股票数据/行情数据/港股通每月成交统计/港股通每月成交统计.md)
+- [通用行情接口](tushare/references/股票数据/行情数据/通用行情接口/通用行情接口.md)
+- [每日指标](tushare/references/股票数据/行情数据/每日指标/每日指标.md)
+- [历史日线](tushare/references/股票数据/行情数据/历史日线/历史日线.md)
+- [复权因子](tushare/references/股票数据/行情数据/复权因子/复权因子.md)
+

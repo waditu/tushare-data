@@ -5,6 +5,5 @@
 __pycache__
 *.pyc
 
-cache
-export
+data
 logs

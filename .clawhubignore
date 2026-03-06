@@ -1,8 +1,0 @@
-node_modules
-.git
-*.log
-__pycache__
-
-.DS_Store
-*.swp
-*.tmp
