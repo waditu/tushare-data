@@ -1,6 +1,7 @@
 .idea
 .agents
 .claude
+.py3.*
 
 __pycache__
 *.pyc
