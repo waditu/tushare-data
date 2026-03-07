@@ -24,8 +24,8 @@ export TUSHARE_TOKEN=your_token
 import os
 import tushare as ts
 
-# 读取环境变量中的token
-token = os.getenv('TUSHARE_TOKEN')
+# 读取环境变量中的token, 或者读取本地记录的token
+token = os.getenv('TUSHARE_TOKEN') or ts.get_token()
 
 # 初始化pro接口实例
 pro = ts.pro_api(token)
